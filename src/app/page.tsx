@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import type { ElementType } from 'react';
+import Link from 'next/link';
 import {
   Database,
   Search,

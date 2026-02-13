@@ -2,26 +2,19 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import Sidebar from '@/components/layout/Sidebar';
+import LayoutWrapper from '@/components/layout/LayoutWrapper';
 
 export const metadata: Metadata = {
   title: 'Prospex — Precision Prospecting',
-  description: 'B2B Lead Generation Platform for SMMA Agencies. Scrape, Enrich, Audit, and Convert Leads.',
+  description: 'B2B Lead Generation Platform for SMMA Agencies.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-prospex-bg">
         <Sidebar />
-        <main className="ml-64 min-h-screen grid-pattern">
-          <div className="p-6">
-            {children}
-          </div>
-        </main>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );

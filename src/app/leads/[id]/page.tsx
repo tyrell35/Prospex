@@ -15,6 +15,9 @@ import {
   Upload,
   Trash2,
   ExternalLink,
+  MessageCircle,
+  Instagram,
+  FileText,
   Check,
   X,
   RefreshCw,
@@ -223,6 +226,16 @@ export default function LeadDetailPage() {
             {deepAuditLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Microscope className="w-3.5 h-3.5" />}
             Deep Audit
           </button>
+          {lead.phone && (
+            <a href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=Hi%2C%20I%20came%20across%20your%20business%20and%20wanted%20to%20reach%20out.`} target="_blank" rel="noopener noreferrer" className="btn text-xs bg-green-500/20 text-green-400 border border-green-500/40 hover:bg-green-500/30">
+              <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+            </a>
+          )}
+          {lead.instagram_url && (
+            <a href={`https://ig.me/m/${lead.instagram_url.replace(/https?:\/\/(www\.)?instagram\.com\/?/, "").replace(/\/$/, "")}`} target="_blank" rel="noopener noreferrer" className="btn text-xs bg-pink-500/20 text-pink-400 border border-pink-500/40 hover:bg-pink-500/30">
+              <Instagram className="w-3.5 h-3.5" /> Instagram DM
+            </a>
+          )}
           {!lead.ghl_contact_id && (
             <button onClick={handleGHLPush} disabled={ghlLoading} className="btn-success text-xs">
               {ghlLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}

@@ -1,14 +1,13 @@
-// ============================================================
-// LEAD TYPES
-// ============================================================
-
 export interface Lead {
   id: string;
   business_name: string;
   address: string | null;
+  city: string | null;
+  country: string | null;
   phone: string | null;
   email: string | null;
   website: string | null;
+  instagram_url: string | null;
   google_rating: number | null;
   google_review_count: number | null;
   google_maps_url: string | null;
@@ -23,13 +22,11 @@ export interface Lead {
   deep_audit_status: 'pending' | 'running' | 'complete' | 'error' | null;
   ghl_contact_id: string | null;
   ghl_pushed_at: string | null;
+  search_id: string | null;
+  pipeline_stage: 'new' | 'contacted' | 'pitched' | 'booked' | 'closed' | 'lost';
   created_at: string;
   updated_at: string;
 }
-
-// ============================================================
-// AUDIT TYPES
-// ============================================================
 
 export interface AuditData {
   ssl_check: boolean | null;
@@ -66,10 +63,6 @@ export interface Audit {
   raw_data: Record<string, unknown> | null;
   created_at: string;
 }
-
-// ============================================================
-// DEEP AUDIT TYPES
-// ============================================================
 
 export interface DeepAudit {
   id: string;
@@ -143,10 +136,6 @@ export interface AIVisibilityCheck {
   competitors_mentioned: string[];
 }
 
-// ============================================================
-// SETTINGS TYPES
-// ============================================================
-
 export interface Settings {
   id: string;
   outscraper_key: string | null;
@@ -158,60 +147,105 @@ export interface Settings {
   dataforseo_login: string | null;
   dataforseo_password: string | null;
   agency_name: string | null;
+  agency_email: string | null;
+  agency_phone: string | null;
+  agency_website: string | null;
+  agency_logo_url: string | null;
+  calendar_type: 'calendly' | 'ghl' | 'calcom' | 'other' | null;
+  calendar_url: string | null;
   default_niche: string | null;
   default_location: string | null;
+  default_country: string | null;
   ghl_pipeline_id: string | null;
   updated_at: string;
 }
 
-// ============================================================
-// ACTIVITY LOG TYPES
-// ============================================================
-
 export interface ActivityLog {
   id: string;
-  action_type: 'scrape' | 'audit' | 'deep_audit' | 'ghl_push' | 'export' | 'score';
+  action_type: 'scrape' | 'audit' | 'deep_audit' | 'ghl_push' | 'export' | 'score' | 'pitch';
   description: string;
   lead_id: string | null;
   metadata: Record<string, unknown> | null;
   created_at: string;
 }
 
-// ============================================================
-// SEARCH / SCRAPE TYPES
-// ============================================================
+export interface SearchHistory {
+  id: string;
+  niche: string;
+  location: string;
+  country: string | null;
+  source: string;
+  results_count: number;
+  saved_count: number;
+  created_at: string;
+}
+
+export interface Pitch {
+  id: string;
+  lead_id: string;
+  deep_audit_id: string | null;
+  pitch_type: 'seo' | 'reviews' | 'ai_visibility' | 'competitor' | 'comprehensive';
+  title: string;
+  content: PitchContent;
+  agency_name: string | null;
+  agency_email: string | null;
+  agency_phone: string | null;
+  agency_website: string | null;
+  agency_logo_url: string | null;
+  calendar_type: string | null;
+  calendar_url: string | null;
+  status: 'draft' | 'sent' | 'viewed';
+  view_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PitchContent {
+  hook: string;
+  problem: string;
+  proof: string;
+  solution: string;
+  result: string;
+  cta: string;
+  data_points: PitchDataPoint[];
+  competitor_comparisons: PitchComparison[];
+}
+
+export interface PitchDataPoint {
+  label: string;
+  value: string;
+  type: 'positive' | 'negative' | 'neutral';
+}
+
+export interface PitchComparison {
+  competitor_name: string;
+  metric: string;
+  their_value: string;
+  your_value: string;
+  winner: 'them' | 'you' | 'tie';
+}
 
 export interface ScrapeRequest {
   niche: string;
   location: string;
+  country: string;
   source: 'google_maps' | 'yelp' | 'fresha' | 'all';
 }
 
 export interface ScrapeResult {
   business_name: string;
   address: string | null;
+  city: string | null;
+  country: string | null;
   phone: string | null;
   email: string | null;
   website: string | null;
+  instagram_url: string | null;
   google_rating: number | null;
   google_review_count: number | null;
   google_maps_url: string | null;
   source: 'google_maps' | 'yelp' | 'fresha';
 }
-
-// ============================================================
-// GHL TYPES
-// ============================================================
-
-export interface GHLPushResult {
-  success: boolean;
-  contact_id: string | null;
-  error: string | null;
-}
-
-// ============================================================
-// UI TYPES
-// ============================================================
 
 export type SortDirection = 'asc' | 'desc';
 
@@ -223,6 +257,7 @@ export interface TableSort {
 export interface TableFilter {
   search: string;
   source: string | null;
+  priority: string | null;
   scoreRange: [number, number] | null;
   auditStatus: string | null;
 }
