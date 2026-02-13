@@ -141,7 +141,7 @@ export default function SettingsPage() {
   };
 
   // Group fields
-  const groups = [...new Set(fields.map(f => f.group))];
+  const groups = Array.from(new Set(fields.map(f => f.group)));
 
   if (loading) {
     return (
