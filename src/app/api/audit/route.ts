@@ -108,8 +108,10 @@ function calculateAuditScore(checks: Record<string, boolean | number | null>): n
 }
 
 export async function POST(request: NextRequest) {
+  let parsedLeadId: string | null = null;
   try {
     const { leadId } = await request.json();
+    parsedLeadId = leadId;
     if (!leadId) {
       return NextResponse.json({ error: 'leadId is required' }, { status: 400 });
     }
@@ -234,12 +236,11 @@ export async function POST(request: NextRequest) {
   } catch (err: any) {
     console.error('Audit error:', err);
     // Update status to error
-    try {
-      const { leadId } = await request.clone().json();
-      if (leadId) {
-        await supabase.from('leads').update({ audit_status: 'error' }).eq('id', leadId);
-      }
-    } catch {}
+    if (parsedLeadId) {
+      try {
+        await supabase.from('leads').update({ audit_status: 'error' }).eq('id', parsedLeadId);
+      } catch { /* ignore cleanup errors */ }
+    }
     return NextResponse.json({ error: err.message || 'Audit failed' }, { status: 500 });
   }
 }

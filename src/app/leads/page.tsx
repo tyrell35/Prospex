@@ -6,7 +6,6 @@ import {
   Database,
   Search,
   Shield,
-  Microscope,
   Upload,
   Download,
   Trash2,
@@ -14,7 +13,6 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Filter,
   RefreshCw,
   ExternalLink,
   Check,
@@ -66,7 +64,6 @@ export default function LeadsPage() {
     scoreRange: null,
     auditStatus: null,
   });
-  const [bulkAction, setBulkAction] = useState<string | null>(null);
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);

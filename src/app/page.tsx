@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import type { ElementType } from 'react';
 import {
   Database,
   Search,
@@ -20,7 +21,7 @@ import { formatRelativeTime, getScoreColor } from '@/lib/utils';
 import type { DashboardStats, ActivityLog } from '@/lib/types';
 
 function StatCard({ icon: Icon, label, value, trend, color }: {
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
   value: string | number;
   trend?: string;
@@ -50,7 +51,7 @@ function StatCard({ icon: Icon, label, value, trend, color }: {
 }
 
 function QuickAction({ icon: Icon, label, description, href, color }: {
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
   description: string;
   href: string;

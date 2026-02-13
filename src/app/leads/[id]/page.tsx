@@ -66,6 +66,7 @@ function AuditCheck({ label, value, type = 'boolean' }: { label: string; value: 
 export default function LeadDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const leadId = params.id as string;
   const [lead, setLead] = useState<Lead | null>(null);
   const [deepAudit, setDeepAudit] = useState<DeepAudit | null>(null);
   const [activities, setActivities] = useState<ActivityLog[]>([]);
@@ -79,7 +80,7 @@ export default function LeadDetailPage() {
       const { data, error } = await supabase
         .from('leads')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', leadId)
         .single();
 
       if (error) throw error;
@@ -89,7 +90,7 @@ export default function LeadDetailPage() {
       const { data: daData } = await supabase
         .from('deep_audits')
         .select('*')
-        .eq('lead_id', params.id)
+        .eq('lead_id', leadId)
         .order('created_at', { ascending: false })
         .limit(1)
         .maybeSingle();
@@ -100,7 +101,7 @@ export default function LeadDetailPage() {
       const { data: actData } = await supabase
         .from('activity_log')
         .select('*')
-        .eq('lead_id', params.id)
+        .eq('lead_id', leadId)
         .order('created_at', { ascending: false })
         .limit(20);
 
@@ -114,7 +115,8 @@ export default function LeadDetailPage() {
 
   useEffect(() => {
     fetchLead();
-  }, [params.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leadId]);
 
   const handleRunAudit = async () => {
     if (!lead) return;

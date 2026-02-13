@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { ElementType } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -24,7 +25,7 @@ import type { DeepAudit, Lead } from '@/lib/types';
 function ModuleScoreCard({ label, score, icon: Icon, color }: {
   label: string;
   score: number | null;
-  icon: React.ElementType;
+  icon: ElementType;
   color: string;
 }) {
   return (
@@ -40,6 +41,7 @@ function ModuleScoreCard({ label, score, icon: Icon, color }: {
 
 export default function DeepAuditReportPage() {
   const params = useParams();
+  const auditId = params.id as string;
   const [audit, setAudit] = useState<DeepAudit | null>(null);
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ export default function DeepAuditReportPage() {
         const { data: auditData } = await supabase
           .from('deep_audits')
           .select('*')
-          .eq('id', params.id)
+          .eq('id', auditId)
           .single();
 
         if (auditData) {
@@ -71,7 +73,7 @@ export default function DeepAuditReportPage() {
       }
     }
     fetchData();
-  }, [params.id]);
+  }, [auditId]);
 
   if (loading) {
     return (
